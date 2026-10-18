@@ -1,0 +1,28 @@
+KNOVERA — COMPLETE WEBSITE SOURCE
+
+This archive contains the latest local frontend, backend, tests, Dockerfile,
+Render configuration, and setup guides, including manual UPI checkout.
+
+For hosting:
+Upload the CONTENTS of this knovera folder to the repository root, so
+Dockerfile and package.json are directly visible. Follow RAILWAY-SETUP.md
+or START-HERE.md. This app requires Node.js 24 and persistent storage.
+Uploading only public/ to static hosting will not run accounts or payments.
+
+For local use:
+1. Install Node.js 24 and pnpm 11.25.0 if not already available.
+2. Open a terminal in this folder and run:
+   pnpm install --frozen-lockfile --ignore-scripts
+   pnpm build
+3. Copy .env.example to .env and enter your settings privately.
+   For Google login set GOOGLE_CLIENT_ID to your existing public client ID.
+4. Run pnpm start, or on macOS double-click Start Knovera.command.
+5. Open http://localhost:3000 and keep the server window open.
+
+Private .env settings, provider secrets, local accounts/database and
+node_modules are deliberately excluded. The launcher in this archive
+uses this extracted folder, rather than the original workspace location.
+
+Manual UPI requires bank verification by the administrator. Automated
+payments, teacher payouts, video and AI services still need their
+provider configuration; packaging does not activate them.

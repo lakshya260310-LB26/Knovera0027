@@ -1,0 +1,34 @@
+services:
+  - type: web
+    name: skillswap
+    runtime: docker
+    plan: starter
+    dockerfilePath: ./Dockerfile
+    healthCheckPath: /healthz
+    disk:
+      name: skillswap-data
+      mountPath: /var/data
+      sizeGB: 1
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: DEMO_MODE
+        value: "false"
+      - key: DB_PATH
+        value: /var/data/skillswap.sqlite
+      - key: DATA_ENCRYPTION_KEY
+        generateValue: true
+      - key: GOOGLE_CLIENT_ID
+        sync: false
+      - key: ADMIN_EMAIL
+        sync: false
+      - key: PAYMENTS_ENABLED
+        value: "false"
+      - key: WELCOME_SLOT_LIMIT
+        value: "100"
+      - key: PAYOUTS_ENABLED
+        value: "false"
+      - key: MANUAL_UPI_ENABLED
+        value: "true"
+      - key: UPI_ID
+        value: 9680877599@ybl

@@ -1,0 +1,26 @@
+const paths={
+ swap:'M4 8h16m-5-5 5 5-5 5M20 16H4m5-5-5 5 5 5',
+ arrow:'M4 12h16m-6-6 6 6-6 6',home:'m3 10 9-7 9 7v10H3V10m6 10v-7h6v7',search:'M20 20l-5-5m2-5a7 7 0 1 1-14 0 7 7 0 0 1 14 0',
+ calendar:'M4 5h16v16H4zM8 3v4m8-4v4M4 11h16m-12 4h2m4 0h2',wallet:'M3 6h16v15H3V6m0 0V4h14v2m0 7h5v5h-5z',
+ book:'M12 5c-3-2-7-2-10-1v15c3-1 7-1 10 1 3-2 7-2 10-1V4c-3-1-7-1-10 1v15',
+ users:'M16 21v-3a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v3m20 0v-3a4 4 0 0 0-3-4M13 6a4 4 0 1 1-8 0 4 4 0 0 1 8 0m4-3a4 4 0 0 1 0 8',
+ user:'M20 21v-2a6 6 0 0 0-6-6h-4a6 6 0 0 0-6 6v2M16 6a4 4 0 1 1-8 0 4 4 0 0 1 8 0',
+ clock:'M12 8v5l3 2m7-3a10 10 0 1 1-20 0 10 10 0 0 1 20 0',
+ shield:'m12 2 9 4v6c0 5-5 8-9 10-4-2-9-5-9-10V6l9-4m-4 10 3 3 5-6',
+ spark:'m12 3 2.5 6.5L21 12l-6.5 2.5L12 21l-2.5-6.5L3 12l6.5-2.5L12 3',
+ sun:'M12 2v2m0 16v2M2 12h2m16 0h2M5 5l1.5 1.5m11 11L19 19M5 19l1.5-1.5m11-11L19 5m-3 7a4 4 0 1 1-8 0 4 4 0 0 1 8 0',
+ moon:'M20.9 13a9 9 0 0 1-9.9-9.9A9 9 0 1 0 20.9 13',
+ check:'m5 12 4 4L20 5',close:'m6 6 12 12M6 18 18 6',plus:'M12 5v14M5 12h14',
+ phone:'M7 3H4c-3 8 9 20 17 17v-3l-5-2-2 2a15 15 0 0 1-7-7l2-2-2-5',
+ lock:'M5 10h14v11H5V10m3 0V6a4 4 0 0 1 8 0v4m-4 5v2',
+ video:'M3 5h12v14H3zM15 10l6-4v12l-6-4',mic:'M9 4a3 3 0 0 1 6 0v8a3 3 0 0 1-6 0V4m-3 7v1a6 6 0 0 0 12 0v-1m-6 7v4m-4 0h8',
+ exit:'M9 3H3v18h6m5-16 7 7-7 7M8 12h13',
+ cap:'m2 8 10-5 10 5-10 5L2 8m4 2v7l6 4 6-4v-7m4-2v9',
+ info:'M12 11v6m0-10v.1m10 4.9a10 10 0 1 1-20 0 10 10 0 0 1 20 0',
+ chart:'M4 20V4m0 16h17M8 16v-5m5 5V7m5 9V3',
+ code:'m8 6-6 6 6 6m8-12 6 6-6 6m-3-15-2 18',
+ chat:'M3 3h18v14H8l-5 4V3m4 5h10M7 12h7',
+ copy:'M8 8h13v13H8zM4 16H2V2h14v2',
+ gift:'M3 8h18v4H3zM5 12v9h14v-9M12 8v13m0-13c-8 0-7-7-3-5l3 5m0 0c8 0 7-7 3-5l-3 5'
+};
+export const icon=(name,size=19)=>`<svg width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="${paths[name]||paths.spark}"/></svg>`;

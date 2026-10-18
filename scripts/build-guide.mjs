@@ -1,0 +1,20 @@
+import {readFile,writeFile} from 'node:fs/promises';
+const source=await readFile(new URL('../START-HERE.md',import.meta.url),'utf8');
+const escape=s=>s.replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const inline=s=>escape(s).replace(/\[([^\]]+)\]\((https:\/\/[^\s)]+)\)/g,'<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>').replace(/`([^`]+)`/g,'<code>$1</code>').replace(/\*\*([^*]+)\*\*/g,'<strong>$1</strong>');
+const lines=source.split('\n');let html='',inCode=false,inList=false,inTable=false;
+function closeBlocks(){if(inList){html+='</ul>';inList=false;}if(inTable){html+='</tbody></table></div>';inTable=false;}}
+for(let i=0;i<lines.length;i++){
+ const line=lines[i];
+ if(line.startsWith('```')){closeBlocks();html+=inCode?'</code></pre>':'<pre><code>';inCode=!inCode;continue;}
+ if(inCode){html+=escape(line)+'\n';continue;}
+ if(!line.trim()){closeBlocks();continue;}
+ if(line.startsWith('|')){const cells=line.split('|').slice(1,-1).map(x=>x.trim());if(cells.every(c=>/^[-: ]+$/.test(c)))continue;if(!inTable){if(inList){html+='</ul>';inList=false;}html+='<div class="table-scroll"><table><thead><tr>'+cells.map(c=>'<th>'+inline(c)+'</th>').join('')+'</tr></thead><tbody>';inTable=true;}else html+='<tr>'+cells.map(c=>'<td>'+inline(c)+'</td>').join('')+'</tr>';continue;}
+ if(line.startsWith('- ')){if(!inList){closeBlocks();html+='<ul>';inList=true;}html+='<li>'+inline(line.slice(2))+'</li>';continue;}
+ closeBlocks();const heading=line.match(/^(#{1,3}) (.+)$/);html+=heading?`<h${heading[1].length}>${inline(heading[2])}</h${heading[1].length}>`:'<p>'+inline(line)+'</p>';
+}
+closeBlocks();
+await writeFile(new URL('../public/activation-guide.html',import.meta.url),`<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="color-scheme" content="dark light"><title>Knovera · Activation guide</title><style>
+:root{font-family:system-ui,-apple-system,sans-serif;color:#e8efea;background:#0d1410;line-height:1.7}*{box-sizing:border-box}body{max-width:920px;margin:auto;padding:32px 24px 80px}header{display:flex;align-items:center;justify-content:space-between;gap:20px;border-bottom:1px solid #334138;padding-bottom:24px;margin-bottom:42px}.brand{font-weight:750;font-size:24px;color:#c4ef94}a{color:#b8e78c;text-underline-offset:4px}h1{font-size:clamp(28px,5vw,44px);line-height:1.2;letter-spacing:-1.5px;margin-bottom:22px}h2{color:#c4ef94;font-size:25px;line-height:1.3;margin-top:42px}p,li{color:#c8d1cb}li{margin:10px 0}.notice{border:1px solid #49603b;background:#192419;border-radius:16px;padding:20px;margin-bottom:32px}.notice p{margin:0}code{background:#253228;padding:2px 5px;border-radius:4px;font-size:.88em;overflow-wrap:anywhere}pre{padding:20px;background:#18211a;border:1px solid #334138;border-radius:12px;overflow:auto}pre code{padding:0;background:none;overflow-wrap:normal}.table-scroll{overflow:auto}table{border-collapse:collapse;width:100%;font-size:14px}td,th{padding:13px;text-align:left;border:1px solid #334138;vertical-align:top;min-width:160px}th{background:#1d2b20}strong{color:inherit}@media(prefers-color-scheme:light){:root{background:#fbfdf9;color:#18251c}p,li{color:#3e5042}h2,a,.brand{color:#396725}.notice{background:#eff6e9;border-color:#adc896}code,pre,th{background:#eef3ea}td,th,pre,header{border-color:#d2ded0}}@media print{header,.notice{display:none}:root{background:white;color:black}p,li,a,h2{color:black}body{max-width:none;padding:0}}
+</style></head><body><header><span class="brand">Knovera.</span><a href="/">Open website →</a></header><aside class="notice"><p><strong>Your activation guide</strong><br>This page is available without signing in. The website currently runs on this Mac. Public access requires deployment to Render. Google sign-in needs a Google web client ID. Payments and payouts need activated provider accounts.</p></aside><main>${html}</main></body></html>`);
+console.log('Browser-readable activation guide ready.');
